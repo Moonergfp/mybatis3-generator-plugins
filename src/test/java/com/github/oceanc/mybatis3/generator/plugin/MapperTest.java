@@ -1,17 +1,15 @@
 package com.github.oceanc.mybatis3.generator.plugin;
 
-import com.github.oceanc.mybatis3.generator.plugin.mapper.TableTestSliceModMapper;
-import com.github.oceanc.mybatis3.generator.plugin.model.TableTestSliceMod;
-import com.github.oceanc.mybatis3.generator.plugin.model.TableTestSliceModExample;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.github.oceanc.mybatis3.generator.plugin.mapper.PaperMapper;
+import com.github.oceanc.mybatis3.generator.plugin.model.Paper;
 
 /**
  * Created by chengyang
@@ -20,50 +18,38 @@ public class MapperTest {
     public static void main(String[] args) {
         String resource = "/mybatis_config.xml";
 
-        //使用类加载器加载mybatis的配置文件（它也加载关联的映射文件）
+        // 使用类加载器加载mybatis的配置文件（它也加载关联的映射文件）
         InputStream is = MapperTest.class.getResourceAsStream(resource);
-        //构建sqlSession的工厂
+        // 构建sqlSession的工厂
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(is);
 
-        //使用MyBatis提供的Resources类加载mybatis的配置文件（它也加载关联的映射文件）
-        //Reader reader = Resources.getResourceAsReader(resource);
-        //构建sqlSession的工厂
-        //SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+//        sessionFactory.getConfiguration().addMapper(PaperMapper.class);
 
-        //创建能执行映射文件中sql的sqlSession
+        // 使用MyBatis提供的Resources类加载mybatis的配置文件（它也加载关联的映射文件）
+        // Reader reader = Resources.getResourceAsReader(resource);
+        // 构建sqlSession的工厂
+        // SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+
+        // 创建能执行映射文件中sql的sqlSession
         SqlSession session = sessionFactory.openSession();
 
-        TableTestSliceModMapper mapper = session.getMapper(TableTestSliceModMapper.class);
+        PaperMapper mapper = session.getMapper(PaperMapper.class);
 
-        TableTestSliceMod mod = new TableTestSliceMod();
-        mod.setSliceModId(83L);
-        mod.setCouldSumCol(1);
-        mod.setJacksonId1(11L);
-        mod.setJacksonId2("jks2");
-        mod.setJacksonTime(new Date());
+        Paper paper = mapper.selectByPrimaryKey(3L);
+        System.out.println("paper===" + paper);
 
-        TableTestSliceMod mod2 = new TableTestSliceMod();
-        mod2.setSliceModId(166L);
-        mod2.setCouldSumCol(2);
-        mod2.setJacksonId1(22L);
-        mod2.setJacksonId2("jks2");
-        mod2.setJacksonTime(new Date());
+        List<Paper> ps = mapper.tttt();
+        System.out.println("papers===" + ps);
 
-        List<TableTestSliceMod> list = new ArrayList<TableTestSliceMod>(1);
-        list.add(mod);
-        list.add(mod2);
+//        Paper p1 = new Paper();
+//        p1.setName("abc");
+//        Paper p2 = new Paper();
+//        p2.setName("abc");
+//
+//        List<Paper> papers = new ArrayList<Paper>();
+//        papers.add(p1);
+//        papers.add(p2);
+//        mapper.batchInsert(papers);
 
-        mapper.batchInsert(list);
-        session.commit();
-
-        TableTestSliceModExample example = new TableTestSliceModExample();
-        example.page(0, 2);
-        example.setTableNameSuffix("0");
-        List<TableTestSliceMod> ls =  mapper.selectByExample(example);
-        System.out.println(ls.get(0).getSliceModId() == 83);
-        System.out.println(ls.get(1).getSliceModId() == 166);
-
-        Date date = mapper.minJacksonTimByExample(example);
-        System.out.println(SimpleDateFormat.getDateInstance().format(date));
     }
 }

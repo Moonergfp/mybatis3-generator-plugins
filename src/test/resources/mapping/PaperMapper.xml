@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.oceanc.mybatis3.generator.plugin.mapper.PaperMapper" >
+  <resultMap id="BaseResultMap" type="com.github.oceanc.mybatis3.generator.plugin.model.Paper" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="BIGINT" />
+    <result column="end_date" property="endDate" jdbcType="BIGINT" />
+    <result column="current_identity" property="currentIdentity" jdbcType="BIGINT" />
+    <result column="target_identity" property="targetIdentity" jdbcType="BIGINT" />
+    <result column="assessment_cycle" property="assessmentCycle" jdbcType="INTEGER" />
+    <result column="start_push_id" property="startPushId" jdbcType="BIGINT" />
+    <result column="passed_push_id" property="passedPushId" jdbcType="BIGINT" />
+    <result column="ctime" property="ctime" jdbcType="BIGINT" />
+    <result column="utime" property="utime" jdbcType="BIGINT" />
+    <result column="valid" property="valid" jdbcType="BIT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="effective" property="effective" jdbcType="BIT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="current_identity_name" property="currentIdentityName" jdbcType="VARCHAR" />
+    <result column="target_identity_name" property="targetIdentityName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, city_id, city_name, start_date, end_date, current_identity, target_identity, 
+    assessment_cycle, start_push_id, passed_push_id, ctime, utime, valid, status, effective, 
+    creator, current_identity_name, target_identity_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.PaperExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from paper
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from paper
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.PaperExample" >
+    delete from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.Paper" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into paper (name, city_id, city_name, 
+      start_date, end_date, current_identity, 
+      target_identity, assessment_cycle, start_push_id, 
+      passed_push_id, ctime, utime, 
+      valid, status, effective, creator, 
+      current_identity_name, target_identity_name
+      )
+    values (#{name,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=BIGINT}, #{endDate,jdbcType=BIGINT}, #{currentIdentity,jdbcType=BIGINT}, 
+      #{targetIdentity,jdbcType=BIGINT}, #{assessmentCycle,jdbcType=INTEGER}, #{startPushId,jdbcType=BIGINT}, 
+      #{passedPushId,jdbcType=BIGINT}, #{ctime,jdbcType=BIGINT}, #{utime,jdbcType=BIGINT}, 
+      #{valid,jdbcType=BIT}, #{status,jdbcType=INTEGER}, #{effective,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, 
+      #{currentIdentityName,jdbcType=VARCHAR}, #{targetIdentityName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.Paper" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="currentIdentity != null" >
+        current_identity,
+      </if>
+      <if test="targetIdentity != null" >
+        target_identity,
+      </if>
+      <if test="assessmentCycle != null" >
+        assessment_cycle,
+      </if>
+      <if test="startPushId != null" >
+        start_push_id,
+      </if>
+      <if test="passedPushId != null" >
+        passed_push_id,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="utime != null" >
+        utime,
+      </if>
+      <if test="valid != null" >
+        valid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="effective != null" >
+        effective,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="currentIdentityName != null" >
+        current_identity_name,
+      </if>
+      <if test="targetIdentityName != null" >
+        target_identity_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=BIGINT},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=BIGINT},
+      </if>
+      <if test="currentIdentity != null" >
+        #{currentIdentity,jdbcType=BIGINT},
+      </if>
+      <if test="targetIdentity != null" >
+        #{targetIdentity,jdbcType=BIGINT},
+      </if>
+      <if test="assessmentCycle != null" >
+        #{assessmentCycle,jdbcType=INTEGER},
+      </if>
+      <if test="startPushId != null" >
+        #{startPushId,jdbcType=BIGINT},
+      </if>
+      <if test="passedPushId != null" >
+        #{passedPushId,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=BIGINT},
+      </if>
+      <if test="utime != null" >
+        #{utime,jdbcType=BIGINT},
+      </if>
+      <if test="valid != null" >
+        #{valid,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="effective != null" >
+        #{effective,jdbcType=BIT},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="currentIdentityName != null" >
+        #{currentIdentityName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetIdentityName != null" >
+        #{targetIdentityName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.PaperExample" resultType="java.lang.Integer" >
+    select count(*) from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update paper
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null" >
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null" >
+        start_date = #{record.startDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=BIGINT},
+      </if>
+      <if test="record.currentIdentity != null" >
+        current_identity = #{record.currentIdentity,jdbcType=BIGINT},
+      </if>
+      <if test="record.targetIdentity != null" >
+        target_identity = #{record.targetIdentity,jdbcType=BIGINT},
+      </if>
+      <if test="record.assessmentCycle != null" >
+        assessment_cycle = #{record.assessmentCycle,jdbcType=INTEGER},
+      </if>
+      <if test="record.startPushId != null" >
+        start_push_id = #{record.startPushId,jdbcType=BIGINT},
+      </if>
+      <if test="record.passedPushId != null" >
+        passed_push_id = #{record.passedPushId,jdbcType=BIGINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=BIGINT},
+      </if>
+      <if test="record.utime != null" >
+        utime = #{record.utime,jdbcType=BIGINT},
+      </if>
+      <if test="record.valid != null" >
+        valid = #{record.valid,jdbcType=BIT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.effective != null" >
+        effective = #{record.effective,jdbcType=BIT},
+      </if>
+      <if test="record.creator != null" >
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentIdentityName != null" >
+        current_identity_name = #{record.currentIdentityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetIdentityName != null" >
+        target_identity_name = #{record.targetIdentityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateSql != null" >
+        ${record.updateSql},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update paper
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=BIGINT},
+      end_date = #{record.endDate,jdbcType=BIGINT},
+      current_identity = #{record.currentIdentity,jdbcType=BIGINT},
+      target_identity = #{record.targetIdentity,jdbcType=BIGINT},
+      assessment_cycle = #{record.assessmentCycle,jdbcType=INTEGER},
+      start_push_id = #{record.startPushId,jdbcType=BIGINT},
+      passed_push_id = #{record.passedPushId,jdbcType=BIGINT},
+      ctime = #{record.ctime,jdbcType=BIGINT},
+      utime = #{record.utime,jdbcType=BIGINT},
+      valid = #{record.valid,jdbcType=BIT},
+      status = #{record.status,jdbcType=INTEGER},
+      effective = #{record.effective,jdbcType=BIT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      current_identity_name = #{record.currentIdentityName,jdbcType=VARCHAR},
+      target_identity_name = #{record.targetIdentityName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.Paper" >
+    update paper
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=BIGINT},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=BIGINT},
+      </if>
+      <if test="currentIdentity != null" >
+        current_identity = #{currentIdentity,jdbcType=BIGINT},
+      </if>
+      <if test="targetIdentity != null" >
+        target_identity = #{targetIdentity,jdbcType=BIGINT},
+      </if>
+      <if test="assessmentCycle != null" >
+        assessment_cycle = #{assessmentCycle,jdbcType=INTEGER},
+      </if>
+      <if test="startPushId != null" >
+        start_push_id = #{startPushId,jdbcType=BIGINT},
+      </if>
+      <if test="passedPushId != null" >
+        passed_push_id = #{passedPushId,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=BIGINT},
+      </if>
+      <if test="utime != null" >
+        utime = #{utime,jdbcType=BIGINT},
+      </if>
+      <if test="valid != null" >
+        valid = #{valid,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="effective != null" >
+        effective = #{effective,jdbcType=BIT},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="currentIdentityName != null" >
+        current_identity_name = #{currentIdentityName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetIdentityName != null" >
+        target_identity_name = #{targetIdentityName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.Paper" >
+    update paper
+    set name = #{name,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=BIGINT},
+      end_date = #{endDate,jdbcType=BIGINT},
+      current_identity = #{currentIdentity,jdbcType=BIGINT},
+      target_identity = #{targetIdentity,jdbcType=BIGINT},
+      assessment_cycle = #{assessmentCycle,jdbcType=INTEGER},
+      start_push_id = #{startPushId,jdbcType=BIGINT},
+      passed_push_id = #{passedPushId,jdbcType=BIGINT},
+      ctime = #{ctime,jdbcType=BIGINT},
+      utime = #{utime,jdbcType=BIGINT},
+      valid = #{valid,jdbcType=BIT},
+      status = #{status,jdbcType=INTEGER},
+      effective = #{effective,jdbcType=BIT},
+      creator = #{creator,jdbcType=VARCHAR},
+      current_identity_name = #{currentIdentityName,jdbcType=VARCHAR},
+      target_identity_name = #{targetIdentityName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.PaperExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="sumByExample" parameterType="com.github.oceanc.mybatis3.generator.plugin.model.PaperExample" resultType="long" >
+    select sum(${sumCol}) from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into paper  (name, city_id, city_name, 
+        start_date, end_date, current_identity, 
+        target_identity, assessment_cycle, start_push_id, 
+        passed_push_id, ctime, utime, 
+        valid, status, effective, creator, 
+        current_identity_name, target_identity_name
+        )
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.name,jdbcType=VARCHAR}, #{item.cityId,jdbcType=INTEGER}, #{item.cityName,jdbcType=VARCHAR}, 
+        #{item.startDate,jdbcType=BIGINT}, #{item.endDate,jdbcType=BIGINT}, #{item.currentIdentity,jdbcType=BIGINT}, 
+        #{item.targetIdentity,jdbcType=BIGINT}, #{item.assessmentCycle,jdbcType=INTEGER}, #{item.startPushId,jdbcType=BIGINT}, 
+        #{item.passedPushId,jdbcType=BIGINT}, #{item.ctime,jdbcType=BIGINT}, #{item.utime,jdbcType=BIGINT}, 
+        #{item.valid,jdbcType=BIT}, #{item.status,jdbcType=INTEGER}, #{item.effective,jdbcType=BIT}, #{item.creator,jdbcType=VARCHAR}, 
+        #{item.currentIdentityName,jdbcType=VARCHAR}, #{item.targetIdentityName,jdbcType=VARCHAR}
+        )
+      </foreach>
+    </if>
+  </insert>
+</mapper>
